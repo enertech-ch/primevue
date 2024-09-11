@@ -3,7 +3,7 @@
         <p>Number of months to display is configured with the <i>numberOfMonths</i> property.</p>
     </DocSectionText>
     <div class="card flex justify-center">
-        <DatePicker v-model="date" :numberOfMonths="2" />
+        <DatePicker v-model="date" :numberOfMonths="-2" />
     </div>
     <DocSectionCode :code="code" />
 </template>
@@ -15,12 +15,12 @@ export default {
             date: null,
             code: {
                 basic: `
-<DatePicker v-model="date" :numberOfMonths="2" />
+<DatePicker v-model="date" :numberOfMonths="-2" />
 `,
                 options: `
 <template>
     <div class="card flex justify-center">
-        <DatePicker v-model="date" :numberOfMonths="2" />
+        <DatePicker v-model="date" :numberOfMonths="-2" />
     </div>
 </template>
 

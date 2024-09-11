@@ -158,7 +158,7 @@
                                         </span>
                                     </div>
                                     <Button
-                                        v-show="numberOfMonths === 1 ? true : groupIndex === numberOfMonths - 1"
+                                        v-show="Math.abs(numberOfMonths) === 1 ? true : groupIndex === Math.abs(numberOfMonths) - 1"
                                         :ref="nextButtonRef"
                                         :class="cx('pcNextButton')"
                                         :disabled="disabled"
@@ -2237,7 +2237,7 @@ export default {
         },
         navigateToMonth(event, prev, groupIndex) {
             if (prev) {
-                if (this.numberOfMonths === 1 || groupIndex === 0) {
+                if (Math.abs(this.numberOfMonths) === 1 || groupIndex === 0) {
                     this.navigationState = { backward: true };
                     this.navBackward(event);
                 } else {
@@ -2249,7 +2249,7 @@ export default {
                     focusCell.focus();
                 }
             } else {
-                if (this.numberOfMonths === 1 || groupIndex === this.numberOfMonths - 1) {
+                if (Math.abs(this.numberOfMonths) === 1 || groupIndex === Math.abs(this.numberOfMonths) - 1) {
                     this.navigationState = { backward: false };
                     this.navForward(event);
                 } else {
@@ -2690,7 +2690,7 @@ export default {
             this.onOverlayClick(event);
         },
         createResponsiveStyle() {
-            if (this.numberOfMonths > 1 && this.responsiveOptions && !this.isUnstyled) {
+            if (Math.abs(this.numberOfMonths) > 1 && this.responsiveOptions && !this.isUnstyled) {
                 if (!this.responsiveStyleElement) {
                     this.responsiveStyleElement = document.createElement('style');
                     this.responsiveStyleElement.type = 'text/css';
@@ -2712,7 +2712,7 @@ export default {
                             }
                         `;
 
-                        for (let j = numMonths; j < this.numberOfMonths; j++) {
+                        for (let j = numMonths; j <Math.abs(this.numberOfMonths); j++) {
                             styles += `
                                 .p-datepicker-panel[${this.attributeSelector}] .p-datepicker-calendar:nth-child(${j + 1}) {
                                     display: none;
@@ -2772,8 +2772,12 @@ export default {
         months() {
             let months = [];
 
-            for (let i = 0; i < this.numberOfMonths; i++) {
-                let month = this.currentMonth + i;
+            for (let i = 0; i < Math.abs(this.numberOfMonths); i++) {
+
+                let month = ( this.numberOfMonths > -1 )
+                    ? this.currentMonth + i
+                    : this.currentMonth + this.numberOfMonths + i + 1
+                
                 let year = this.currentYear;
 
                 if (month > 11) {
@@ -2942,7 +2946,7 @@ export default {
             return UniqueComponentId();
         },
         switchViewButtonDisabled() {
-            return this.numberOfMonths > 1 || this.disabled;
+            return Math.abs(this.numberOfMonths) > 1 ||  this.disabled;
         },
         panelId() {
             return this.d_id + '_panel';
